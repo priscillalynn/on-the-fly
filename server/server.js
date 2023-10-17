@@ -1,17 +1,17 @@
 import express from "express";
 import cors from "cors";
 import tripRoutes from "./routes/trips.js";
+import activitiesRoutes from "./routes/activities.js";
 
 const PORT = process.env.PORT || 3001;
 
-// create express app
 const app = express();
 
-// middleware
-app.use(express.json()); // use JSON
+app.use(express.json()); 
 app.use(cors());
 
 app.use("/api/trips", tripRoutes);
+app.use("/api/activities", activitiesRoutes);
 
 app.get("/", (req, res) => {
   res

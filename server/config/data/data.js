@@ -40,3 +40,35 @@ export const tripsData = [
     total_cost: 4879.0
   }
 ];
+
+
+export const activitiesData = [
+  {
+    name: "Hiking Adventure",
+    description: "Explore the scenic trails in the mountains.",
+    date: "2023-10-20",
+    trip_id: 1,
+    likes: 15,
+  },
+  {
+    name: "Beach Relaxation",
+    description: "Enjoy a day at the beach with sun, sand, and surf.",
+    date: "2023-10-22",
+    trip_id: 1,
+    likes: 20,
+  },
+  {
+    name: "Cultural Tour",
+    description: "Visit historical sites and learn about the local culture.",
+    date: "2023-10-25",
+    trip_id: 2,
+    likes: 12,
+  },
+  {
+    name: "Food Tasting",
+    description: "Indulge in local delicacies and culinary delights.",
+    date: "2023-10-28",
+    trip_id: 2,
+    likes: 18,
+  },
+];
