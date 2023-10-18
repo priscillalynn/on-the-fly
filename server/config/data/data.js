@@ -7,7 +7,7 @@ export const tripsData = [
     num_days: 10,
     start_date: "2023-07-11",
     end_date: "2023-07-22",
-    total_cost: 3899.0
+    total_cost: 3899.0,
   },
   {
     title: "A Week in Italy: Venice, Florence, & Rome",
@@ -17,7 +17,7 @@ export const tripsData = [
     num_days: 7,
     start_date: "2023-03-01",
     end_date: "2023-03-08",
-    total_cost: 2509.0
+    total_cost: 2509.0,
   },
   {
     title: "Egypt & Nile River Cruise",
@@ -27,7 +27,7 @@ export const tripsData = [
     num_days: 12,
     start_date: "2024-04-30",
     end_date: "2024-05-11",
-    total_cost: 3409.0
+    total_cost: 3409.0,
   },
   {
     title: "Ecuador & Galápagos Islands",
@@ -37,38 +37,90 @@ export const tripsData = [
     num_days: 10,
     start_date: "2023-05-08",
     end_date: "2023-05-17",
-    total_cost: 4879.0
-  }
+    total_cost: 4879.0,
+  },
 ];
 
+export const destinationsData = [
+  {
+    destination: "Tokyo",
+    description: "Experience the neon lights and bustling streets of Tokyo.",
+    city: "Tokyo",
+    country: "Japan",
+    img_url: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    flag_img_url: "https://www.countryflags.io/jp/flat/64.png",
+  },
+  {
+    destination: "Paris",
+    description: "Fall in love with the city of love.",
+    city: "Paris",
+    country: "France",
+    img_url: "https://images.unsplash.com/photo-1519681393784-d120267933ba",
+    flag_img_url: "https://www.countryflags.io/fr/flat/64.png",
+  },
+];
 
 export const activitiesData = [
   {
-    name: "Hiking Adventure",
+    activity: "Hiking Adventure",
     description: "Explore the scenic trails in the mountains.",
     date: "2023-10-20",
     trip_id: 1,
     likes: 15,
   },
   {
-    name: "Beach Relaxation",
+    activity: "Beach Relaxation",
     description: "Enjoy a day at the beach with sun, sand, and surf.",
     date: "2023-10-22",
     trip_id: 1,
     likes: 20,
   },
   {
-    name: "Cultural Tour",
+    activity: "Cultural Tour",
     description: "Visit historical sites and learn about the local culture.",
     date: "2023-10-25",
     trip_id: 2,
     likes: 12,
   },
   {
-    name: "Food Tasting",
+    activity: "Food Tasting",
     description: "Indulge in local delicacies and culinary delights.",
     date: "2023-10-28",
     trip_id: 2,
     likes: 18,
   },
+];
+
+export const usersData = [
+  {
+    user_id: 1,
+    username: "User One",
+    avatarurl: "https://avatars.githubusercontent.com/u/1?v=4",
+  },
+  {
+    user_id: 2,
+    username: "User Two",
+    avatarurl: "https://avatars.githubusercontent.com/u/2?v=4",
+  },
+  {
+    user_id: 3,
+    username: "User Three",
+    avatarurl: "https://avatars.githubusercontent.com/u/2?v=4",
+  },
+];
+
+export const tripsUsersData = [
+  { trip_id: 1, user_id: 1 },
+  { trip_id: 1, user_id: 2 },
+  { trip_id: 2, user_id: 3 },
+  { trip_id: 3, user_id: 1 },
+  // Add more rows as needed
+];
+
+export const tripsDestinationsData = [
+  { trip_id: 1, destination_id: 1 },
+  { trip_id: 1, destination_id: 2 },
+  { trip_id: 2, destination_id: 3 },
+  { trip_id: 3, destination_id: 1 },
+  // Add more rows as needed
 ];

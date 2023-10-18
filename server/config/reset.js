@@ -1,7 +1,8 @@
 import { pool } from "./database.js";
 import "./dotenv.js";
-import { tripsData } from "./data/data.js";
+import { tripsData, destinationsData, activitiesData, usersData, tripsUsersData, tripsDestinationsData } from "./data/data.js";
 
+/* FOR TRIPS DATA */
 const createTripsTable = async () => {
   const createTripsTableQuery = `
       CREATE TABLE IF NOT EXISTS trips (
@@ -56,6 +57,7 @@ const seedTripsTable = async () => {
   });
 };
 
+/* FOR DESTINATIONS DATA */
 const createDestinationsTable = async () => {
   const createDestinationsTableQuery = `
     CREATE TABLE IF NOT EXISTS destinations (
@@ -77,6 +79,34 @@ const createDestinationsTable = async () => {
   }
 };
 
+const seedDestinationsTable = async () => {
+  //create the table
+  await createDestinationsTable();
+
+  const insertDestinationsQuery = `
+    INSERT INTO destinations (destination, description, city, country, img_url, flag_img_url)
+    VALUES ($1, $2, $3, $4, $5, $6);
+  `;
+
+  try {
+    for (const destination of destinationsData) {
+      const values = [
+        destination.destination,
+        destination.description,
+        destination.city,
+        destination.country,
+        destination.img_url,
+        destination.flag_img_url,
+      ];
+      await pool.query(insertDestinationsQuery, values);
+    }
+    console.log("🎉 destinations table seeded successfully");
+  } catch (err) {
+    console.error("⚠️ error seeding destinations table", err);
+  }
+};
+
+/* FOR ACTIVITIES DATA */
 const createActivitiesTable = async () => {
   const createActivitiesTableQuery = `
     CREATE TABLE IF NOT EXISTS activities (
@@ -96,6 +126,56 @@ const createActivitiesTable = async () => {
   }
 };
 
+const seedActivitiesTable = async () => {
+  // create the table
+  await createActivitiesTable();
+
+  // insert the individual rows
+  const createActivitiesTableQuery = `
+    CREATE TABLE IF NOT EXISTS activities (
+        id              serial PRIMARY KEY,
+        trip_id         int NOT NULL,
+        activity        varchar(100) NOT NULL,
+        description     varchar(500) NOT NULL,
+        date            date NOT NULL,
+        likes           integer DEFAULT 0,
+        FOREIGN KEY(trip_id) REFERENCES trips(id)
+    );
+  `;
+
+  try {
+    await pool.query(createActivitiesTableQuery);
+    console.log("🎉 activities table created successfully");
+
+    const insertActivitiesQuery = `
+      INSERT INTO activities (trip_id, activity, description, date, likes)
+      VALUES ($1, $2, $3, $4, $5)
+    `;
+
+    activitiesData.forEach((activity) => {
+      const values = [
+        activity.trip_id,
+        activity.activity,
+        activity.description,
+        activity.date,
+        activity.likes,
+      ];
+
+      pool.query(insertActivitiesQuery, values, (err, res) => {
+        if (err) {
+          console.error("⚠️ error inserting activity", err);
+          return;
+        }
+
+        console.log(`✅ Activity '${activity.name}' added successfully`);
+      });
+    });
+  } catch (err) {
+    console.error("⚠️ error creating activities table", err);
+  }
+};
+
+/* FOR TRIPS_DESTINATIONS DATA */
 const createTripsDestinationsTable = async () => {
   const createTripsDestinationsTableQuery = `
     CREATE TABLE IF NOT EXISTS trips_destinations (
@@ -115,14 +195,35 @@ const createTripsDestinationsTable = async () => {
   }
 };
 
+const seedTripsDestinationsTable = async () => {
+  // create the table
+  await createTripsDestinationsTable();
+
+  const seedTripsDestinationsTableQuery = `
+    INSERT INTO trips_destinations (trip_id, destination_id)
+    VALUES ($1, $2);
+  `;
+
+  try {
+    // Loop through each trip and destination combination and insert into the trips_destinations table
+    for (const tripDestination of tripsDestinationsData) {
+      const values = [tripDestination.trip_id, tripDestination.destination_id];
+      await pool.query(seedTripsDestinationsTableQuery, values);
+    }
+    console.log("🎉 trips_destinations table seeded successfully");
+  } catch (err) {
+    console.error("⚠️ error seeding trips_destinations table", err);
+  }
+};
+
+/* FOR USERS DATA */
 const createUsersTable = async () => {
   const createUsersTableQuery = `
     CREATE TABLE IF NOT EXISTS users (
         id                serial PRIMARY KEY,
-        githubid          integer NOT NULL,
+        user_id          integer NOT NULL,
         username          varchar(100) NOT NULL,
         avatarurl         varchar(500) NOT NULL,
-        accesstoken       varchar(500) NOT NULL
     );
   `;
 
@@ -134,6 +235,28 @@ const createUsersTable = async () => {
   }
 };
 
+const seedUsersTable = async () => {
+  // create the table
+  await createUsersTable();
+
+  const seedUsersTableQuery = `
+    INSERT INTO users (user_id, username, avatarurl)
+    VALUES ($1, $2, $3, $4);
+  `;
+
+  try {
+    // Loop through each user and insert into the users table
+    for (const user of usersData) {
+      const values = [user.user_id, user.username, user.avatarurl];
+      await pool.query(seedUsersTableQuery, values);
+    }
+    console.log("🎉 users table seeded successfully");
+  } catch (err) {
+    console.error("⚠️ error seeding users table", err);
+  }
+};
+
+/* FOR TRIPS_USERS DATA */
 const createTripsUsersTable = async () => {
   const createTripsUsersTableQuery = `
       CREATE TABLE IF NOT EXISTS trips_users (
@@ -152,9 +275,31 @@ const createTripsUsersTable = async () => {
   }
 };
 
+const seedTripsUsersTable = async () => {
+  // create the table
+  await createTripsUsersTable();
+
+  const seedTripsUsersTableQuery = `
+    INSERT INTO trips_users (trip_id, user_id)
+    VALUES ($1, $2);
+  `;
+
+  try {
+    // Loop through each trip and user combination and insert into the trips_users table
+    for (const tripUser of tripsUsersData) {
+      const values = [tripUser.trip_id, tripUser.user_id];
+      await pool.query(seedTripsUsersTableQuery, values);
+    }
+    console.log("🎉 trips_users table seeded successfully");
+  } catch (err) {
+    console.error("⚠️ error seeding trips_users table", err);
+  }
+};
+
+// run the functions
 await seedTripsTable();
-await createDestinationsTable();
-await createActivitiesTable();
-await createTripsDestinationsTable();
-await createUsersTable();
-await createTripsUsersTable();
+await seedDestinationsTable();
+await seedTripsDestinationsTable();
+await seedActivitiesTable();
+await seedUsersTable();
+await seedTripsUsersTable();

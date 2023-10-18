@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import tripRoutes from "./routes/trips.js";
 import activitiesRoutes from "./routes/activities.js";
+//import tripsDestinationRoutes from "./routes/trip_destinations.js";
+
 
 const PORT = process.env.PORT || 3001;
 
