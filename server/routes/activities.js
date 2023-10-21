@@ -13,10 +13,10 @@ import ActivitiesController from "../controllers/activities.js";
 
 const router = express.Router();
 
-router.get("/activities", ActivitiesController.getActivities);
-router.get("/activities/:trip_id", ActivitiesController.getTripActivities);
-router.post("/activities/:trip_id", ActivitiesController.createActivity);
-router.delete("/activities/:id", ActivitiesController.deleteActivity);
-router.patch("/activities/:id", ActivitiesController.updateActivityLikes);
+router.get("/", ActivitiesController.getActivities);
+router.get("/:trip_id", ActivitiesController.getTripActivities);
+router.post("/:trip_id", ActivitiesController.createActivity);
+router.delete("/:id", ActivitiesController.deleteActivity);
+router.patch("/:id", ActivitiesController.updateActivityLikes);
 
 export default router;

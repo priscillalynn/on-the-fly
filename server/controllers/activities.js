@@ -12,20 +12,15 @@ import { pool } from "../config/database.js";
 
 const createActivity = async (req, res) => {
   const insertQuery = `
-    INSERT INTO activities (name, description, date, trip_id, likes)
-    VALUES ($1, $2, $3, $4, $5)
+    INSERT INTO activities (activity, trip_id)
+    VALUES($1, $2)
     RETURNING *`;
 
-  const { name, description, date, trip_id, likes } = req.body;
-
   try {
-    const results = await pool.query(insertQuery, [
-      name,
-      description,
-      date,
-      trip_id,
-      likes,
-    ]);
+    const trip_id = parseInt(req.params.trip_id);
+    const { activity } = req.body;
+
+    const results = await pool.query(insertQuery, [activity, trip_id]);
     res.status(201).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
@@ -33,7 +28,10 @@ const createActivity = async (req, res) => {
 };
 
 const getActivities = async (req, res) => {
-  const selectQuery = `SELECT * FROM activities ORDER BY id ASC`;
+  const selectQuery = `
+  SELECT *
+  FROM activities
+  ORDER BY id ASC`;
 
   try {
     const results = await pool.query(selectQuery);
@@ -47,8 +45,8 @@ const getTripActivities = async (req, res) => {
   const selectQuery = `SELECT * FROM activities WHERE trip_id = $1`;
 
   try {
-    const tripId = parseInt(req.params.tripId);
-    const results = await pool.query(selectQuery, [tripId]);
+    const trip_id = parseInt(req.params.trip_id);
+    const results = await pool.query(selectQuery, [trip_id]);
     res.status(200).json(results.rows);
   } catch (error) {
     res.status(409).json({ error: error.message });
@@ -56,36 +54,44 @@ const getTripActivities = async (req, res) => {
 };
 
 const updateActivityLikes = async (req, res) => {
-  const updateQuery = `
+  const updateLikeQuery = `
     UPDATE activities
-    SET likes = likes + 1
-    WHERE id = $1`;
+    SET num_votes = $1
+    WHERE id = $2
+  `;
+
+  const { num_votes } = req.body;
 
   try {
-    const activityId = parseInt(req.params.activityId);
-    const results = await pool.query(updateQuery, [activityId]);
-    res.status(200).json(results.rows);
+    const id = parseInt(req.params.id);
+    const newVotes = parseInt(num_votes);
+
+    const results = await pool.query(updateLikeQuery, [newVotes, id]);
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }
 };
 
 const deleteActivity = async (req, res) => {
-  const deleteQuery = `DELETE FROM activities WHERE id = $1`;
+  const deleteQuery = `
+    DELETE FROM activities
+    WHERE id = $1
+  `;
 
   try {
-    const activityId = parseInt(req.params.activityId);
-    const results = await pool.query(deleteQuery, [activityId]);
-    res.status(200).json(results.rows);
+    const id = parseInt(req.params.id);
+    const results = await pool.query(deleteQuery, [id]);
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }
 };
 
 export default {
-  createActivity,
   getActivities,
   getTripActivities,
-  updateActivityLikes,
+  createActivity,
   deleteActivity,
+  updateActivityLikes,
 };

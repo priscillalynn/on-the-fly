@@ -61,11 +61,11 @@ const getTrip = async (req, res) => {
 };
 
 //updating a trip
-const updateTrip = async (request, response) => {
+const updateTrip = async (req, res) => {
   const updateQuery = `
     UPDATE trips
     SET title = $1, description = $2, img_url = $3, num_days = $4, start_date = $5, end_date = $6, total_cost= $7
-    WHERE id = $8',
+    WHERE id = $8'
     `;
 
   const {

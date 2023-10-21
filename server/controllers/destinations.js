@@ -12,18 +12,22 @@ import { pool } from "../config/database.js";
 
 const createDestination = async (req, res) => {
   const insertQuery = `
-    INSERT INTO destinations (name, description, location, rating)
-    VALUES ($1, $2, $3, $4)
-    RETURNING *`;
+    INSERT INTO destinations (destination, description, city, country, img_url, flag_img_url)
+    VALUES($1, $2, $3, $4, $5, $6)
+    RETURNING *
+  `;
 
-  const { name, description, location, rating } = req.body;
+  const { destination, description, city, country, img_url, flag_img_url } =
+    req.body;
 
   try {
     const results = await pool.query(insertQuery, [
-      name,
+      destination,
       description,
-      location,
-      rating,
+      city,
+      country,
+      img_url,
+      flag_img_url,
     ]);
     res.status(201).json(results.rows[0]);
   } catch (error) {
@@ -43,37 +47,40 @@ const getDestinations = async (req, res) => {
 };
 
 const getDestination = async (req, res) => {
-  const selectQuery = `SELECT * FROM destinations WHERE id = $1`;
-
   try {
     const id = parseInt(req.params.id);
-    const results = await pool.query(selectQuery, [id]);
+    const results = await pool.query(
+      "SELECT * FROM destinations WHERE id = $1",
+      [id]
+    );
     res.status(200).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
-    console.log("Unable to get destination");
-    console.log("Error:", error.message);
   }
 };
 
 const updateDestination = async (req, res) => {
   const updateQuery = `
     UPDATE destinations
-    SET name = $1, description = $2, location = $3, rating = $4
-    WHERE id = $5`;
+    SET destination = $1, description = $2, city = $3, country = $4, img_url = $5, flag_img_url = $6
+    WHERE id = $7
+  `;
 
-  const { name, description, location, rating } = req.body;
+  const id = parseInt(req.params.id);
+  const { destination, description, city, country, img_url, flag_img_url } =
+    req.body;
 
   try {
-    const id = parseInt(req.params.id);
     const results = await pool.query(updateQuery, [
-      name,
+      destination,
       description,
-      location,
-      rating,
+      city,
+      country,
+      img_url,
+      flag_img_url,
       id,
     ]);
-    res.status(200).json(results.rows);
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }
@@ -84,8 +91,9 @@ const deleteDestination = async (req, res) => {
 
   try {
     const id = parseInt(req.params.id);
+
     const results = await pool.query(deleteQuery, [id]);
-    res.status(200).json(results.rows);
+    res.status(200).json(results.rows[0]);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }

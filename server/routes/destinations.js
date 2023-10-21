@@ -13,10 +13,10 @@ import DestinationsController from "../controllers/destinations.js";
 
 const router = express.Router();
 
-router.get("/destinations", DestinationsController.getDestinations);
-router.get("/destinations/:id", DestinationsController.getDestination);
-router.post("/destinations", DestinationsController.createDestination);
-router.delete("/destinations/:id", DestinationsController.deleteDestination);
-router.patch("/destinations/:id", DestinationsController.updateDestination);
+router.get("/", DestinationsController.getDestinations);
+router.get("/:id", DestinationsController.getDestination);
+router.post("/", DestinationsController.createDestination);
+router.delete("/:id", DestinationsController.deleteDestination);
+router.patch("/:id", DestinationsController.updateDestination);
 
 export default router;

@@ -40,7 +40,7 @@ export const tripsData = [
     total_cost: 4879.0,
   },
 ];
-
+/*
 export const destinationsData = [
   {
     destination: "Tokyo",
@@ -124,3 +124,4 @@ export const tripsDestinationsData = [
   { trip_id: 3, destination_id: 1 },
   // Add more rows as needed
 ];
+*/
