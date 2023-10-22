@@ -26,7 +26,13 @@ const App = () => {
       const tripsData = await res.json();
       setTrips(tripsData);
     }
+    const fetchDestinations = async () => {
+      const response = await fetch("/api/destinations");
+      const data = await response.json();
+      setDestinations(data);
+    };
     fetchTrips();
+    fetchDestinations();
   }, []);
 
   // Sets up routes
