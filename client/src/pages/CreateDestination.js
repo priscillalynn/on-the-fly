@@ -24,8 +24,6 @@ const CreateDestination = () => {
   };
 
   const createDestination = async (event) => {
-    event.preventDefault();
-
     const addDestination = async () => {
       const options = {
         method: "POST",
@@ -35,9 +33,10 @@ const CreateDestination = () => {
         body: JSON.stringify(destination),
       };
 
-      fetch("/api/destinations", options);
-
-      window.location.href = "/";
+      const response = await fetch("/api/destination/create", options);
+      const data = await response.json();
+      setDestination(data);
+      return data.id;
     };
 
     const createTripDestination = async (destination_id) => {
@@ -52,8 +51,9 @@ const CreateDestination = () => {
         }),
       };
 
-      fetch("/api/trips-destinations", options);
-      window.location.href = "/";
+      const response = await fetch("/api/trips-destinations/create", options);
+      const data = await response.json();
+      return data;
     };
 
     addDestination()
