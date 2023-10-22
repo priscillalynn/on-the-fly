@@ -19,7 +19,7 @@ October - November 2023
 3. **Set up the frontend:**
    - Navigate to the frontend directory: `cd client`
    - Install dependencies: `npm install`
-   - Run the frontend app: `npm run dev`
+   - Run the frontend app: `npm start`
 4. Open your browser and visit [http://localhost:5173](http://localhost:5173) to access On the Fly.
 
 **Note:** Service currently relies on `Railway` for database hosting and management. You can sign up and host your own instance. [Learn more about Railway](https://railway.app/)
