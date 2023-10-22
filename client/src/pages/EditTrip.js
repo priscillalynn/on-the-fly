@@ -48,13 +48,24 @@ const EditTrip = ({ data }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post),
+    
     };
 
-    await fetch("/api/trips/" + id, options);
-    window.location.href = "/";
+    try {
+      const response = await fetch("/api/trips/" + id, options);
+
+      if (!response.ok) {
+        throw new Error(`Error updating trip: ${response.statusText}`);
+      }
+
+      // Assuming you want to redirect only after a successful update
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error updating trip:", error);
+      // Handle error, e.g., display an error message to the user
+    }
   };
 
-  
   const deletePost = async (event) => {
     event.preventDefault();
 
@@ -62,9 +73,21 @@ const EditTrip = ({ data }) => {
       method: "DELETE",
     };
 
-    await fetch("/api/trips/" + id, options);
-    window.location.href = "/";
+    try {
+      const response = await fetch("/api/trips/" + id, options);
+
+      if (!response.ok) {
+        throw new Error(`Error deleting trip: ${response.statusText}`);
+      }
+
+      // Assuming you want to redirect only after a successful deletion
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error deleting trip:", error);
+      // Handle error, e.g., display an error message to the user
+    }
   };
+
 
 
   return (
