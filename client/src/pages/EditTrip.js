@@ -48,11 +48,10 @@ const EditTrip = ({ data }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(post),
-    
     };
 
     try {
-      const response = await fetch("/api/trips/" + id, options);
+      const response = await fetch(`${api_url}/api/trips/` + id, options);
 
       if (!response.ok) {
         throw new Error(`Error updating trip: ${response.statusText}`);
@@ -74,7 +73,7 @@ const EditTrip = ({ data }) => {
     };
 
     try {
-      const response = await fetch("/api/trips/" + id, options);
+      const response = await fetch(`${api_url}/api/trips/` + id, options);
 
       if (!response.ok) {
         throw new Error(`Error deleting trip: ${response.statusText}`);
@@ -87,8 +86,6 @@ const EditTrip = ({ data }) => {
       // Handle error, e.g., display an error message to the user
     }
   };
-
-
 
   return (
     <div>

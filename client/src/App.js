@@ -10,10 +10,12 @@ import TripDetails from './pages/TripDetails'
 import { Link } from 'react-router-dom'
 import CreateActivity from './pages/CreateActivity';
 import AddToTrip from './pages/AddToTrip';
-
-
+import Login from './pages/Login';
 
 const App = () => {
+
+  const API_URL = "http://localhost:3001";
+
   
   const [trips, setTrips] = useState([]);
   const [destinations, setDestinations] = useState([]);
@@ -21,13 +23,13 @@ const App = () => {
   useEffect(() => {
     const fetchTrips = async () => {
       //get trips
-      const res = await fetch('/api/trips');
+      const res = await fetch(`${API_URL}/api/trips`);
       //convert to json
       const tripsData = await res.json();
       setTrips(tripsData);
     }
     const fetchDestinations = async () => {
-      const response = await fetch("/api/destinations");
+      const response = await fetch(`${API_URL}/api/destinations`);
       const data = await response.json();
       setDestinations(data);
     };
@@ -39,36 +41,36 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
-      element:<ReadTrips data={trips}/>
+      element: <ReadTrips data={trips} />,
     },
     {
-      path:"/trip/new",
-      element: <CreateTrip />
+      path: "/trip/new",
+      element: <CreateTrip user={user} api_url={API_URL} />,
     },
     {
-      path:"/edit/:id",
-      element: <EditTrip data={trips} />
+      path: "/edit/:id",
+      element: <EditTrip user={user} data={trips} api_url={API_URL} />,
     },
     {
-      path:"/destinations",
-      element: <ReadDestinations data={destinations} />
+      path: "/destinations",
+      element: <ReadDestinations user={user} data={destinations} />,
     },
     {
-      path:"/trip/get/:id",
-      element: <TripDetails data={trips} />
+      path: "/trip/get/:id",
+      element: <TripDetails user={user} data={trips} api_url={API_URL} />,
     },
     {
-      path:"/destination/new/:trip_id",
-      element: <CreateDestination />
+      path: "/destination/new/:trip_id",
+      element: <CreateDestination user={user} api_url={API_URL} />,
     },
     {
-      path:"/activity/create/:trip_id",
-      element: <CreateActivity />
+      path: "/activity/create/:trip_id",
+      element: <CreateActivity user={user} api_url={API_URL} />,
     },
     {
-      path:"/destinations/add/:destination_id",
-      element: <AddToTrip data={trips}/>
-    }
+      path: "/destinations/add/:destination_id",
+      element: <AddToTrip user={user} data={trips} api_url={API_URL} />,
+    },
   ]);
 
   

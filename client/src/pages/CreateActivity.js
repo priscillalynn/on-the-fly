@@ -27,7 +27,9 @@ const CreateActivity = () => {
       body: JSON.stringify(activity),
     };
 
-    await fetch("/api/activities/" + trip_id, options);
+    //await fetch("/api/activities/" + trip_id, options);
+    await fetch(`${api_url}/api/activities/` + trip_id, options);
+    
     window.location.href = "/";
   };
 

@@ -34,7 +34,9 @@ const CreateTrip = () => {
       body: JSON.stringify(post),
     };
 
-    await fetch("/api/trips", options);
+    //await fetch("/api/trips", options);
+    await fetch(`${api_url}/api/trips/`, options);
+
     window.location.href = "/";
   };
 
